@@ -19,16 +19,16 @@
 
 package atlassianmobilefinder.com.store.reducer
 
-import com.cesarvaliente.kunidirectional.store.Item
-import com.cesarvaliente.kunidirectional.store.Navigation
-import com.cesarvaliente.kunidirectional.store.ReadAction
-import com.cesarvaliente.kunidirectional.store.ReadAction.ItemsLoadedAction
+import atlassianmobilefinder.com.store.Item
+import atlassianmobilefinder.com.store.Navigation
+import atlassianmobilefinder.com.store.ReadAction
+
 
 object ReadReducer : Reducer<ReadAction>() {
 
     override fun reduceItemsCollection(action: ReadAction, currentItems: List<Item>): List<Item> =
             when (action) {
-                is ItemsLoadedAction -> action.items
+                is ReadAction.ItemsLoadedAction -> action.items
                 else -> super.reduceItemsCollection(action, currentItems)
             }
 

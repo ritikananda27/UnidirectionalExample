@@ -15,7 +15,7 @@ interface Subscribers {
 
 }
 
-abstract class Store(
+abstract class MainStore(
         override val sideEffects: CopyOnWriteArrayList<SideEffect> = CopyOnWriteArrayList(),
         override val stateHandlers: CopyOnWriteArrayList<StateHandler> = CopyOnWriteArrayList(),
         private val storeThread: ThreadExecutor? = null,

@@ -19,38 +19,35 @@
 
 package atlassianmobilefinder.com.store.reducer
 
-import com.cesarvaliente.kunidirectional.store.Item
-import com.cesarvaliente.kunidirectional.store.UpdateAction
-import com.cesarvaliente.kunidirectional.store.UpdateAction.ReorderItemsAction
-import com.cesarvaliente.kunidirectional.store.UpdateAction.UpdateColorAction
-import com.cesarvaliente.kunidirectional.store.UpdateAction.UpdateFavoriteAction
-import com.cesarvaliente.kunidirectional.store.UpdateAction.UpdateItemAction
+import atlassianmobilefinder.com.store.Item
+import atlassianmobilefinder.com.store.UpdateAction
+
 
 object UpdateReducer : Reducer<UpdateAction>() {
 
     override fun reduceItemsCollection(action: UpdateAction, currentItems: List<Item>): List<Item> =
             when (action) {
-                is ReorderItemsAction -> action.items
+                is UpdateAction.ReorderItemsAction -> action.items
                 else -> super.reduceItemsCollection(action, currentItems)
             }
 
     override fun shouldReduceItem(action: UpdateAction, currentItem: Item): Boolean =
             when (action) {
-                is UpdateItemAction -> action.localId == currentItem.localId
-                is UpdateFavoriteAction -> action.localId == currentItem.localId
-                is UpdateColorAction -> action.localId == currentItem.localId
+                is UpdateAction.UpdateItemAction -> action.localId == currentItem.localId
+                is UpdateAction.UpdateFavoriteAction -> action.localId == currentItem.localId
+                is UpdateAction.UpdateColorAction -> action.localId == currentItem.localId
                 else -> false
             }
 
     override fun changeItemFields(action: UpdateAction, currentItem: Item): Item =
             when (action) {
-                is UpdateItemAction -> currentItem.copy(
+                is UpdateAction.UpdateItemAction -> currentItem.copy(
                         text = action.text,
                         color = action.color)
-                is UpdateFavoriteAction -> currentItem.copy(
+                is UpdateAction.UpdateFavoriteAction -> currentItem.copy(
                         favorite = action.favorite
                 )
-                is UpdateColorAction -> currentItem.copy(
+                is UpdateAction.UpdateColorAction -> currentItem.copy(
                         color = action.color
                 )
                 else -> currentItem

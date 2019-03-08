@@ -1,0 +1,11 @@
+import android.util.Log
+import atlassianmobilefinder.com.store.MainStore
+import atlassianmobilefinder.com.store.StoreThreadService
+
+object AppStore : MainStore(storeThread = StoreThreadService(), logger = { tag, message -> Log.d(tag, message) }) {
+
+    fun enablePersistence() {
+        //TODO
+    }
+
+}

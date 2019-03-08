@@ -19,24 +19,21 @@
 
 package atlassianmobilefinder.com.store.reducer
 
-import com.cesarvaliente.kunidirectional.store.EditItemScreen
-import com.cesarvaliente.kunidirectional.store.Navigation
-import com.cesarvaliente.kunidirectional.store.NavigationAction
-import com.cesarvaliente.kunidirectional.store.NavigationAction.EditItemScreenAction
-import com.cesarvaliente.kunidirectional.store.NavigationAction.ItemsScreenAction
-
+import atlassianmobilefinder.com.store.EditItemScreen
+import atlassianmobilefinder.com.store.Navigation
+import atlassianmobilefinder.com.store.NavigationAction
 object NavigationReducer : Reducer<NavigationAction>() {
 
     override fun reduceEditItemScreen(action: NavigationAction, editItemScreen: EditItemScreen): EditItemScreen =
             when (action) {
-                is EditItemScreenAction -> editItemScreen.copy(
+                is NavigationAction.EditItemScreenAction -> editItemScreen.copy(
                         currentItem = action.item)
                 else -> super.reduceEditItemScreen(action, editItemScreen)
             }
 
     override fun reduceNavigation(action: NavigationAction, currentNavigation: Navigation): Navigation =
             when (action) {
-                is EditItemScreenAction -> Navigation.EDIT_ITEM
-                is ItemsScreenAction -> Navigation.ITEMS_LIST
+                is NavigationAction.EditItemScreenAction -> Navigation.EDIT_ITEM
+                is NavigationAction.ItemsScreenAction -> Navigation.ITEMS_LIST
             }
 }
