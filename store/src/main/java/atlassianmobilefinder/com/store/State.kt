@@ -6,13 +6,13 @@ enum class Navigation {
     EDIT_ITEM
 }
 
-data class ItemListScreen(val items: List<Item> = emptyList())
+data class ItemsListScreen(val items: List<Item> = emptyList())
 
 data class EditItemScreen(val currentItem: Item = Item())
 
 
 data class State(
-    val itemsListScreen: ItemListScreen = ItemListScreen(),
-    val editItemScreen: EditItemScreen = EditItemScreen(),
-    val navigation: Navigation = Navigation.ITEMS_LIST
+        val itemsListScreen: ItemsListScreen = ItemsListScreen(),
+        val editItemScreen: EditItemScreen = EditItemScreen(),
+        val navigation: Navigation = Navigation.ITEMS_LIST
 )
