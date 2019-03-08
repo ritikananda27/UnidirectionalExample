@@ -7,7 +7,9 @@ abstract class Reducer<in T : Action> {
     open fun reduce(action: T, currentState: State) =
             with(currentState) {
                 currentState.copy(
-                        itemsListScreen
+                        itemsListScreen = reduceItemsListScreen(action, itemsListScreen),
+                        editItemScreen = reduceEditItemScreen(action, editItemScreen),
+                        navigation = reduceNavigation(action, navigation)
                 )
             }
 
