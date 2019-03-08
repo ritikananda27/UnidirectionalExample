@@ -1,5 +1,6 @@
 package atlassianmobilefinder.com.store
 
+import atlassianmobilefinder.com.store.reducer.*
 import java.util.concurrent.CopyOnWriteArrayList
 import java.util.concurrent.LinkedBlockingDeque
 
@@ -15,10 +16,10 @@ interface Subscribers {
 }
 
 abstract class Store(
-    override val sideEffects: CopyOnWriteArrayList<SideEffect> = CopyOnWriteArrayList(),
-    override val stateHandlers: CopyOnWriteArrayList<StateHandler> = CopyOnWriteArrayList(),
-    private val storeThread: ThreadExecutor? = null,
-    private val logger: (String, String) -> Unit = { _, _ -> Unit }
+        override val sideEffects: CopyOnWriteArrayList<SideEffect> = CopyOnWriteArrayList(),
+        override val stateHandlers: CopyOnWriteArrayList<StateHandler> = CopyOnWriteArrayList(),
+        private val storeThread: ThreadExecutor? = null,
+        private val logger: (String, String) -> Unit = { _, _ -> Unit }
 ) : Subscribers {
 
     private var actions = LinkedBlockingDeque<Action>()
@@ -38,7 +39,7 @@ abstract class Store(
 
     private fun handle(action: Action) {
         val newState = reduce(action, state)
-        dispatch(newState!!)
+        dispatch(newState)
         sideEffects.dispatch(action)
 
     }
@@ -49,13 +50,18 @@ abstract class Store(
     }
 
 
-    private fun reduce(action: Action, currentyState: State): State? {
+    private fun reduce(action: Action, currentState: State): State {
         logger("action", action.toString())
-        /* val newState = when (action) {
-             //is CreationAction - >
-         }*/
+        val newState = when (action) {
+            is CreationAction -> CreationReducer.reduce(action, currentState)
+            is UpdateAction -> UpdateReducer.reduce(action, currentState)
+            is ReadAction -> ReadReducer.reduce(action, currentState)
+            is DeleteAction -> DeleteReducer.reduce(action, currentState)
+            is NavigationAction -> NavigationReducer.reduce(action, currentState)
+        }
 
-        return null
+        logger("new state", newState.toString())
+        return newState
     }
 
 
